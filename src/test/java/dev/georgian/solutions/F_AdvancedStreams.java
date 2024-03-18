@@ -39,13 +39,10 @@ public class F_AdvancedStreams {
      */
     @Test
     public void f1_mapLengthToWordList() throws IOException {
-        //TODO//Map<Integer, List<String>> result = null;
-        //BEGINREMOVE
         Map<Integer, List<String>> result =
             reader.lines()
                 .flatMap(line -> SPLIT_PATTERN.splitAsStream(line))
                 .collect(Collectors.groupingBy(String::length));
-        //ENDREMOVE
 
         assertEquals(10, result.get(7).size());
         assertEquals(Set.of("beauty's", "increase", "ornament"), new HashSet<>(result.get(8)));
@@ -71,13 +68,10 @@ public class F_AdvancedStreams {
      */
     @Test
     public void f2_mapLengthToWordCount() throws IOException {
-        //TODO//Map<Integer, Long> result = null;
-        //BEGINREMOVE
         Map<Integer, Long> result =
             reader.lines()
                 .flatMap(line -> SPLIT_PATTERN.splitAsStream(line))
                 .collect(Collectors.groupingBy(String::length, Collectors.counting()));
-        //ENDREMOVE
 
         assertEquals(Map.ofEntries(entry(1, 1L),
                 entry(2, 11L),
@@ -113,8 +107,6 @@ public class F_AdvancedStreams {
      */
     @Test
     public void f3_wordFrequencies() throws IOException {
-        //TODO//Map<String, Long> result = null;
-        //BEGINREMOVE
         Map<String, Long> result =
             reader.lines()
                 .flatMap(line -> SPLIT_PATTERN.splitAsStream(line))
@@ -129,7 +121,6 @@ public class F_AdvancedStreams {
         //           .collect(toMap(Function.identity(),
         //                          w -> 1L,
         //                          Long::sum));
-        //ENDREMOVE
 
         assertEquals(2L, (long) result.get("tender"));
         assertEquals(6L, (long) result.get("the"));
@@ -168,14 +159,11 @@ public class F_AdvancedStreams {
      */
     @Test
     public void f4_nestedMaps() throws IOException {
-        //TODO//Map<String, Map<Integer, List<String>>> result = null;
-        //BEGINREMOVE
         Map<String, Map<Integer, List<String>>> result =
             reader.lines()
                 .flatMap(line -> SPLIT_PATTERN.splitAsStream(line))
                 .collect(Collectors.groupingBy(word -> word.substring(0, 1),
                     Collectors.groupingBy(String::length)));
-        //ENDREMOVE
 
         assertEquals("[abundance]", result.get("a").get(9).toString());
         assertEquals("[by, be, by]", result.get("b").get(2).toString());
@@ -207,17 +195,12 @@ public class F_AdvancedStreams {
     public void f5_separateOddEvenSums() {
         IntStream input = new Random(987523).ints(20, 0, 100);
 
-        //TODO//int sumEvens = 0;
-        //TODO//int sumOdds  = 0;
-        //BEGINREMOVE
-
         Map<Boolean, Integer> sums =
             input.boxed()
                 .collect(Collectors.partitioningBy(i -> (i & 1) == 1,
                     Collectors.summingInt(i -> i)));
         int sumEvens = sums.get(false);
         int sumOdds = sums.get(true);
-        //ENDREMOVE
 
         assertEquals(516, sumEvens);
         assertEquals(614, sumOdds);
@@ -247,10 +230,6 @@ public class F_AdvancedStreams {
                 "k", "l", "m", "n", "o", "p", "q", "r", "s", "t")
             .parallelStream();
 
-        //UNCOMMENT//String result = input.collect(null, null, null).toString();
-        //UNCOMMENT//// TODO fill in lambda expressions or method references
-        //UNCOMMENT//// in place of the nulls in the line above.
-        //BEGINREMOVE
         String result =
             input.collect(StringBuilder::new,
                     (sb, s) -> sb.insert(0, s).append(s),
@@ -260,7 +239,6 @@ public class F_AdvancedStreams {
                         sb1.append(sb2.substring(half));
                     })
                 .toString();
-        //ENDREMOVE
 
         assertEquals("tsrqponmlkjihgfedcbaabcdefghijklmnopqrst", result);
     }
@@ -300,19 +278,13 @@ public class F_AdvancedStreams {
         // rely on implicit no-arg constructor
 
         void accumulate(String s) {
-            //UNCOMMENT//// TODO write code to accumulate a single string into this object
-            //BEGINREMOVE
             count++;
             set.add(s);
-            //ENDREMOVE
         }
 
         void combine(TotalAndDistinct other) {
-            //UNCOMMENT//// TODO write code to combine the other object into this one
-            //BEGINREMOVE
             count += other.count;
             set.addAll(other.set);
-            //ENDREMOVE
         }
 
         int getTotalCount() {

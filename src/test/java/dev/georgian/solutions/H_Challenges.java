@@ -50,9 +50,6 @@ public class H_Challenges {
         input.put(10, Arrays.asList("crab", "lobster", "scorpion"));
         input.put(750, List.of("millipede"));
 
-        //TODO//List<String> result = null;
-        //BEGINREMOVE
-
         // Simple solution: use Map.forEach to iterate over each entry,
         // and use a nested List.forEach to iterate over each list entry,
         // and accumulate values into the result list.
@@ -71,8 +68,6 @@ public class H_Challenges {
 //                 .flatMap(entry -> entry.getValue().stream()
 //                                        .map(name -> name + ":" + entry.getKey()))
 //                 .collect(toList());
-
-        //ENDREMOVE
 
         assertEquals(13, result.size());
         assertTrue(result.contains("ibex:4"));
@@ -137,8 +132,6 @@ public class H_Challenges {
         input.put("e", new HashSet<>(Arrays.asList(2, 4)));
         input.put("f", new HashSet<>(Arrays.asList(3, 4)));
 
-        //TODO//Map<Integer, Set<String>> result = null;
-        //BEGINREMOVE
         Map<Integer, Set<String>> result =
             input.entrySet().stream()
                 .flatMap(e -> e.getValue().stream()
@@ -158,7 +151,6 @@ public class H_Challenges {
         //                       (set1, set2) -> { set1.addAll(set2); return set1; }
         //                 ));
 
-        //ENDREMOVE
 
         assertEquals(new HashSet<>(Arrays.asList("a", "c", "d")), result.get(1));
         assertEquals(new HashSet<>(Arrays.asList("a", "b", "e")), result.get(2));
@@ -192,13 +184,8 @@ public class H_Challenges {
             "alfa", "bravo", "charlie", "delta",
             "echo", "foxtrot", "golf", "hotel").parallel();
 
-        //UNCOMMENT//List<String> result = input.collect(
-        //UNCOMMENT//    Collector.of(null, null, null, null));
-        //UNCOMMENT//// TODO implement a collector by replacing the nulls above
-        //BEGINREMOVE
         List<String> result = input.collect(
             Collector.of(Longest::new, Longest::acc, Longest::comb, Longest::finish));
-        //ENDREMOVE
 
         assertEquals(Arrays.asList("charlie", "foxtrot"), result);
     }
@@ -209,7 +196,7 @@ public class H_Challenges {
     // references to these functions to the Collector.of() method.
     // </editor-fold>
 
-    //BEGINREMOVE
+
     static class Longest {
         int len = -1;
         List<String> list = new ArrayList<>();
@@ -240,7 +227,6 @@ public class H_Challenges {
             return list;
         }
     }
-    //ENDREMOVE
 
 
     /**
@@ -253,8 +239,6 @@ public class H_Challenges {
     public void h4_splitCharacterRuns() {
         String input = "aaaaabbccccdeeeeeeaaafff";
 
-        //TODO//List<String> result = null;
-        //BEGINREMOVE
         int[] bounds =
             IntStream.rangeClosed(0, input.length())
                 .filter(i -> i == 0 || i == input.length() ||
@@ -265,7 +249,6 @@ public class H_Challenges {
             IntStream.range(1, bounds.length)
                 .mapToObj(i -> input.substring(bounds[i - 1], bounds[i]))
                 .collect(Collectors.toList());
-        //ENDREMOVE
 
         assertEquals("[aaaaa, bb, cccc, d, eeeeee, aaa, fff]", result.toString());
     }
@@ -286,10 +269,6 @@ public class H_Challenges {
         Stream<String> input =
             IntStream.range(0, 100).mapToObj(String::valueOf).parallel();
 
-        //UNCOMMENT//Collection<String> result =
-        //UNCOMMENT//    input.collect(Collector.of(null, null, null));
-        //UNCOMMENT//    // TODO fill in collector functions above
-        //BEGINREMOVE
         Collection<String> result =
             input.collect(Collector.of(ArrayDeque::new,
                 ArrayDeque::addFirst,
@@ -297,7 +276,6 @@ public class H_Challenges {
                     d2.addAll(d1);
                     return d2;
                 }));
-        //ENDREMOVE
 
         assertEquals(
             IntStream.range(0, 100)
@@ -328,8 +306,6 @@ public class H_Challenges {
      */
 
     OptionalInt majority(int[] array) {
-        //TODO//return null;
-        //BEGINREMOVE
         Map<Integer, Long> map =
             Arrays.stream(array)
                 .boxed()
@@ -340,7 +316,6 @@ public class H_Challenges {
             .filter(e -> e.getValue() > array.length / 2)
             .mapToInt(Map.Entry::getKey)
             .findAny();
-        //ENDREMOVE
     }
     // Hint:
     // <editor-fold defaultstate="collapsed">
@@ -371,10 +346,7 @@ public class H_Challenges {
      * programming concept called "partial application."
      */
     Supplier<Shoe> makeShoeSupplier(IntFunction<Shoe> ifunc, int size) {
-        //TODO//return null;
-        //BEGINREMOVE
         return () -> ifunc.apply(size);
-        //ENDREMOVE
     }
     // Hint:
     // <editor-fold defaultstate="collapsed">
@@ -426,8 +398,7 @@ public class H_Challenges {
     public void h8_mapOfClassesAndInterfaces() {
 
         Class<?> origin = ArrayList.class;
-        //TODO//Map<Boolean, Set<Class<?>>> result = null;
-        //BEGINREMOVE
+
         Stream<Class<?>> classesAndInterfaces =
             Stream.<Class<?>>iterate(origin, Class::getSuperclass)
                 .takeWhile(Objects::nonNull)
@@ -440,7 +411,6 @@ public class H_Challenges {
         Map<Boolean, Set<Class<?>>> result =
             classesAndInterfaces.filter(isInterface.or(isConcrete))
                 .collect(Collectors.partitioningBy(isInterface, Collectors.toSet()));
-        //ENDREMOVE
 
         assertEquals(Map.of(false, Set.of(ArrayList.class, Object.class),
                 true, Set.of(List.class, RandomAccess.class, Cloneable.class,

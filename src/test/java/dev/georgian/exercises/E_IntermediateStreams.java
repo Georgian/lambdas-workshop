@@ -243,13 +243,14 @@ public class E_IntermediateStreams {
 
         Random rand = new Random(314L);
         Stream<String> stream = Stream.iterate(
-            "",
-            (String s) -> {
-                final int nextInt = rand.nextInt(10);
-                return (nextInt == 0 && !s.isEmpty()) ? s.substring(0, s.length() - 1) :
-                    (nextInt == 8 || nextInt == 9) ? s + "+"
-                        : s;
-            }).limit(100);
+                "",
+                (String s) -> {
+                    final int nextInt = rand.nextInt(10);
+                    return (nextInt == 0 && !s.isEmpty())
+                        ? s.substring(0, s.length() - 1)
+                        : (nextInt == 8 || nextInt == 9) ? s + "+" : s;
+                })
+            .limit(100);
 
         long count = 0L; // TODO
 
