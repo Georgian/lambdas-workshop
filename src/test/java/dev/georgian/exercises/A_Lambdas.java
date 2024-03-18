@@ -336,7 +336,7 @@ public class A_Lambdas {
     @Test
     @Disabled
     public void f_runnable1() {
-        String sb = "abc";
+        StringBuilder sb = new StringBuilder("abc");
         String suffix = "xyz";
 
         Runnable r = null; // TODO
@@ -344,7 +344,7 @@ public class A_Lambdas {
         r.run();
         r.run();
         r.run();
-        assertEquals("abcxyzxyzxyz", sb);
+        assertEquals("abcxyzxyzxyz", sb.toString());
     }
 
     /**
