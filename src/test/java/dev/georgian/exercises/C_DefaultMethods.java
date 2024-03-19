@@ -1,5 +1,6 @@
 package dev.georgian.exercises;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -68,7 +69,9 @@ public class C_DefaultMethods {
         List<String> list = Arrays.asList(
             "alfa", "bravo", "charlie", "delta", "echo", "foxtrot");
 
-        // TODO code to modify list
+        list = list.stream()
+            .map(String::toLowerCase)
+            .collect(Collectors.toList());
 
         assertEquals(List.of("ALFA", "BRAVO", "CHARLIE", "DELTA", "ECHO", "FOXTROT"),
             list);
@@ -77,7 +80,6 @@ public class C_DefaultMethods {
     // <editor-fold defaultstate="collapsed">
     // Use List.replaceAll().
     // </editor-fold>
-
 
     /**
      * Given a map whose keys are Integers and whose values are StringBuilders,
@@ -225,10 +227,9 @@ public class C_DefaultMethods {
      * time, we want to remove the entry if the value is the empty string.
      */
     @Test
-    @Disabled
     public void c09_mapRemoveEntriesWithEmptyValues() {
         List<String> keys = Arrays.asList("a", "b", "c", "d", "e", "f", "g");
-        Map<String, String> map = new HashMap<>(Map.of("a", "alfa",
+        final Map<String, String> map = new HashMap<>(Map.of("a", "alfa",
             "b", "bravo",
             "c", "charlie",
             "d", "delta",
@@ -236,7 +237,21 @@ public class C_DefaultMethods {
             "f", "",
             "g", ""));
 
+         map.entrySet().removeIf(entry -> entry.getValue().isBlank());
+
         // TODO write code to fix the map
+        var map2 = map.entrySet()
+            .stream()
+            .filter(entry -> !entry.getValue().isBlank())
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        new ArrayList<>(map.keySet())
+            .forEach(key -> {
+                var value = map.get(key);
+                if (StringUtils.isBlank(value)) {
+                    map.remove(key);
+                }
+            });
 
         assertEquals(Map.of("a", "alfa",
                 "b", "bravo",

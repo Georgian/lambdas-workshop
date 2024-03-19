@@ -1,17 +1,10 @@
 package dev.georgian.exercises;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -85,6 +78,7 @@ public class D_SimpleStreams {
     public void d3_countLinesInFile() throws IOException {
         long count = 0; // TODO
 
+
         assertEquals(14, count);
     }
     // Hint 1:
@@ -122,7 +116,6 @@ public class D_SimpleStreams {
     // Think about the case where the OptionalInt might be empty
     // (that is, where it has no value).
     // </editor-fold>
-
 
     /**
      * Find the longest line in the text file.
@@ -190,19 +183,5 @@ public class D_SimpleStreams {
 // END OF EXERCISES
 // TEST INFRASTRUCTURE IS BELOW
 // ========================================================
-
-
-    private BufferedReader reader;
-
-    @BeforeEach
-    public void z_setUpBufferedReader() throws IOException {
-        String filePath = Objects.requireNonNull(getClass().getClassLoader().getResource("SonnetI.txt")).getPath();
-        reader = Files.newBufferedReader(Paths.get(filePath), StandardCharsets.UTF_8);
-    }
-
-    @AfterEach
-    public void z_closeBufferedReader() throws IOException {
-        reader.close();
-    }
 
 }
